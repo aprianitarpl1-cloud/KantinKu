@@ -8,7 +8,6 @@ export default function Navbar() {
   const pathname = usePathname();
   const [jumlahKeranjang, setJumlahKeranjang] = useState<number>(0);
 
-  // Fungsi untuk menghitung total item di keranjang dari localStorage
   const hitungKeranjang = () => {
     try {
       const stored = localStorage.getItem("keranjang");
@@ -25,17 +24,13 @@ export default function Navbar() {
   };
 
   useEffect(() => {
-    // Hitung saat pertama kali dimuat
     hitungKeranjang();
-
-    // Dengar event "keranjang-berubah" agar lencana di navbar langsung terupdate (Langkah 15)
     window.addEventListener("keranjang-berubah", hitungKeranjang);
     return () => {
       window.removeEventListener("keranjang-berubah", hitungKeranjang);
     };
   }, []);
 
-  // Daftar menu navigasi
   const navItems = [
     { name: "Beranda", href: "/" },
     { name: "Menu", href: "/menu" },
@@ -46,13 +41,14 @@ export default function Navbar() {
 
   return (
     <nav className="bg-white border-b border-gray-100 py-4 px-6 sticky top-0 z-50 shadow-sm">
-      <div className="max-w-6xl mx-auto flex justify-between items-center">
+      {/* Menggunakan gap yang rapi agar logo dan menu berdekatan di sebelah kiri */}
+      <div className="max-w-6xl mx-auto flex items-center gap-12">
         {/* Logo KantinKu */}
         <Link href="/" className="text-xl font-bold text-pink-500">
           KantinKu
         </Link>
 
-        {/* Menu Navigasi yang Dinamis */}
+        {/* Menu Navigasi (Bergeser ke kiri mengikuti logo) */}
         <div className="flex gap-6 text-sm font-medium items-center">
           {navItems.map((item) => {
             const isActive = pathname === item.href;
@@ -61,20 +57,21 @@ export default function Navbar() {
               <Link
                 key={item.href}
                 href={item.href}
-                className={`relative pb-1 transition-colors flex items-center gap-1.5 ${
+                className={`relative pb-1 transition-colors flex items-center ${
                   isActive
                     ? "text-pink-500 font-semibold"
                     : "text-gray-600 hover:text-pink-500"
                 }`}
               >
-                <span>{item.name}</span>
-                
-                {/* Lencana/Badge Keranjang (Langkah 15) */}
-                {item.badge !== undefined && item.badge > 0 && (
-                  <span className="bg-pink-500 text-white text-[10px] px-1.5 py-0.5 rounded-full font-bold">
-                    {item.badge}
-                  </span>
-                )}
+                {/* Badge di sebelah kiri tulisan Keranjang */}
+                <div className="flex items-center gap-1.5">
+                  {item.name === "Keranjang" && item.badge !== undefined && item.badge > 0 && (
+                    <span className="bg-pink-500 text-white text-[10px] px-1.5 py-0.5 rounded-full font-bold leading-none">
+                      {item.badge}
+                    </span>
+                  )}
+                  <span>{item.name}</span>
+                </div>
 
                 {/* Garis bawah pink aktif */}
                 {isActive && (
