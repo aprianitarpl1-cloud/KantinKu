@@ -5,7 +5,7 @@ export default function Beranda() {
   return (
     <main className="min-h-screen bg-gray-50 flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
       <div className="max-w-3xl w-full text-center">
-        {/* Judul & Kalimat Ajakan dengan Warna Pink Polos */}
+        {/* Bagian Selamat Datang */}
         <div className="bg-pink-500 rounded-3xl p-8 md:p-12 text-white shadow-lg mb-8">
           <h1 className="text-3xl md:text-5xl font-extrabold mb-4">
             Selamat Datang di KantinKu! 
